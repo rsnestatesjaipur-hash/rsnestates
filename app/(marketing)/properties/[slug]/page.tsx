@@ -10,7 +10,7 @@ import PropertyOverview from "@/components/property/PropertyOverview";
 import PropertySpecifications from "@/components/property/PropertySpecifications";
 import PropertyVideos from "@/components/property/PropertyVideos";
 import PropertyContactCard from "@/components/property/PropertyContactCard";
-import InterestModal from "@/components/property/InterestModal";
+import PropertySchema from "@/components/seo/PropertySchema";
 
 interface PropertyPageProps {
   params: Promise<{
@@ -41,8 +41,11 @@ const relatedProperties =
     property.id
   );
 
-  return (
-    <>
+return (
+  <>
+    <PropertySchema
+      property={property}
+    />
       <PropertyBreadcrumb property={property} />
 
       <PropertyGallery property={property} />
