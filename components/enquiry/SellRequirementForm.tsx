@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import LocalitySelect from "@/components/common/LocalitySelect";
 
+import TurnstileWidget from "@/components/common/TurnstileWidget";
+
 interface SellRequirementFormProps {
   token: string;
   enquiry: any;
@@ -23,6 +25,11 @@ const [isSubmitting, setIsSubmitting] =
 const [isSubmitted, setIsSubmitted] =
   useState(false);
 
+  const [
+  turnstileToken,
+  setTurnstileToken,
+] = useState("");
+
   const [propertyType, setPropertyType] =
     useState("");
 
@@ -41,6 +48,16 @@ const [isSubmitted, setIsSubmitted] =
       const form = e.currentTarget;
 
       const formData = new FormData(form);
+
+      if (!turnstileToken) {
+          alert(
+            "Please complete the security verification."
+          );
+
+          setIsSubmitting(false);
+
+          return;
+        }
 
       const additionalDetails = {
         propertyType:
@@ -68,6 +85,8 @@ const [isSubmitted, setIsSubmitted] =
           body: JSON.stringify({
             token,
             additionalDetails,
+            "cf-turnstile-response":
+              turnstileToken,
           }),
         }
       );
@@ -259,6 +278,16 @@ const [isSubmitted, setIsSubmitted] =
         </div>
 
         {/* Submit Button */}
+
+        <TurnstileWidget
+            onVerify={setTurnstileToken}
+            onExpire={() =>
+              setTurnstileToken("")
+            }
+            onError={() =>
+              setTurnstileToken("")
+            }
+          />
 
         <div className="space-y-4">
         <button

@@ -2,6 +2,8 @@
 import { useState } from "react";
 
 import LocalitySelect from "@/components/common/LocalitySelect";
+import TurnstileWidget from "@/components/common/TurnstileWidget";
+
 interface BuyRequirementFormProps {
   token: string;
   enquiry: any;
@@ -17,6 +19,11 @@ export default function BuyRequirementForm({
     const [isSubmitted, setIsSubmitted] =
     useState(false);
 
+    const [
+      turnstileToken,
+      setTurnstileToken,
+    ] = useState("");
+
     async function handleSubmit(
   e: React.FormEvent<HTMLFormElement>
 ) {
@@ -28,6 +35,16 @@ export default function BuyRequirementForm({
     const form = e.currentTarget;
 
     const formData = new FormData(form);
+
+    if (!turnstileToken) {
+        alert(
+          "Please complete the security verification."
+        );
+
+        setIsSubmitting(false);
+
+        return;
+      }
 
     const additionalDetails = {
       preferredLocality: formData.get(
@@ -58,10 +75,12 @@ export default function BuyRequirementForm({
             "application/json",
         },
 
-        body: JSON.stringify({
-          token,
-          additionalDetails,
-        }),
+          body: JSON.stringify({
+            token,
+            additionalDetails,
+            "cf-turnstile-response":
+              turnstileToken,
+          }),
       }
     );
 
@@ -293,6 +312,15 @@ export default function BuyRequirementForm({
     className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-amber-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-400"
   />
 </div>
+        <TurnstileWidget
+            onVerify={setTurnstileToken}
+            onExpire={() =>
+              setTurnstileToken("")
+            }
+            onError={() =>
+              setTurnstileToken("")
+            }
+          />
 
         <div className="space-y-4">
         <button

@@ -4,6 +4,9 @@ import { supabaseServer } from "@/lib/supabase/server";
 import { inquirySchema } from "@/lib/validations/inquiry";
 import { sendEmail } from "@/lib/email/sendEmail";
 
+const TURNSTILE_VERIFY_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
 function parseInquiry(formData: FormData) {
   return inquirySchema.safeParse({
     propertyId: Number(formData.get("propertyId")),
@@ -24,6 +27,35 @@ function parseInquiry(formData: FormData) {
 export async function createInquiry(
   formData: FormData
 ) {
+
+    const turnstileToken =
+    String(
+      formData.get(
+        "cf-turnstile-response"
+      ) ?? ""
+    );
+
+  if (!turnstileToken) {
+    return {
+      success: false,
+      message:
+        "Please complete the security verification.",
+    };
+  }
+
+  const verified =
+    await verifyTurnstile(
+      turnstileToken
+    );
+
+  if (!verified) {
+    return {
+      success: false,
+      message:
+        "Security verification failed.",
+    };
+  }
+  
   const parsed = parseInquiry(formData);
 
   const emailVerifyToken =
@@ -64,6 +96,36 @@ export async function createInquiry(
       message: error.message,
     };
   }
+
+
+  async function verifyTurnstile(
+  token: string
+) {
+  const response =
+    await fetch(
+      TURNSTILE_VERIFY_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/x-www-form-urlencoded",
+        },
+
+        body: new URLSearchParams({
+          secret:
+            process.env
+              .TURNSTILE_SECRET_KEY!,
+          response: token,
+        }),
+      }
+    );
+
+  const result =
+    await response.json();
+
+  return result.success === true;
+}
 
 const website = "https://rsnestates.com";
 

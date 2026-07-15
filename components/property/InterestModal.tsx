@@ -5,6 +5,8 @@ import { toast } from "sonner";
 
 import { createInquiry } from "@/app/actions/inquiry-actions";
 
+import TurnstileWidget from "@/components/common/TurnstileWidget";
+
 interface InterestModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -22,6 +24,10 @@ export default function InterestModal({
 }: InterestModalProps) {
   const [isSubmitting, setIsSubmitting] =
     useState(false);
+  const [
+  turnstileToken,
+  setTurnstileToken,
+] = useState("");
 
   if (!isOpen) return null;
 
@@ -36,6 +42,21 @@ export default function InterestModal({
       const form = e.currentTarget;
 
       const formData = new FormData(form);
+
+      if (!turnstileToken) {
+          toast.error(
+            "Please complete the security verification."
+          );
+
+          setIsSubmitting(false);
+
+          return;
+        }
+
+        formData.append(
+          "cf-turnstile-response",
+          turnstileToken
+        );
 
       formData.append(
         "propertyId",
@@ -129,6 +150,16 @@ onClose();
             className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:border-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
           />
 
+          <TurnstileWidget
+            onVerify={setTurnstileToken}
+            onExpire={() =>
+              setTurnstileToken("")
+            }
+            onError={() =>
+              setTurnstileToken("")
+            }
+          />
+          
           <div className="space-y-3 pt-2">
             <button
               type="button"
@@ -146,6 +177,21 @@ onClose();
                   setIsSubmitting(true);
 
                   const formData = new FormData(form);
+
+                  if (!turnstileToken) {
+                      toast.error(
+                        "Please complete the security verification."
+                      );
+
+                      setIsSubmitting(false);
+
+                      return;
+                    }
+
+                    formData.append(
+                      "cf-turnstile-response",
+                      turnstileToken
+                    );
 
                   formData.append(
                     "propertyId",
