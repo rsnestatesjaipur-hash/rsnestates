@@ -114,14 +114,8 @@ export default function PortalLayout({
 
           <Header
             title={title}
-            role={role}
-            profile={profile}
-            sidebarOpen={
-              sidebarOpen
-            }
-            setSidebarOpen={
-              setSidebarOpen
-            }
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
           />
 
           {/* ========================================

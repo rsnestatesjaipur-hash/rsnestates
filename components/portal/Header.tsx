@@ -1,18 +1,17 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 import {
-  Building2,
+  Dispatch,
+  SetStateAction,
+} from "react";
+import { useTheme } from "next-themes";
+import {
   Menu,
   Search,
 } from "lucide-react";
 
 import ThemeToggle from "@/components/common/ThemeToggle";
-import LogoutButton from "@/components/portal/LogoutButton";
-import UserProfile from "@/components/portal/UserProfile";
-
-import { PortalRole } from "@/lib/config/portal-navigation";
-import { CurrentProfile } from "@/lib/auth/getCurrentProfile";
 
 // =====================================================
 // Props
@@ -20,10 +19,6 @@ import { CurrentProfile } from "@/lib/auth/getCurrentProfile";
 
 interface HeaderProps {
   title: string;
-
-  role: PortalRole | null;
-
-  profile: CurrentProfile | null;
 
   sidebarOpen: boolean;
 
@@ -38,14 +33,21 @@ interface HeaderProps {
 
 export default function Header({
   title,
-  role,
-  profile,
   sidebarOpen,
   setSidebarOpen,
 }: HeaderProps) {
+  const {
+    resolvedTheme,
+  } = useTheme();
+
+  const logo =
+    resolvedTheme === "light"
+      ? "/images/logo-black.png"
+      : "/images/logo-white.png";
+
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-      <div className="flex min-h-20 items-center justify-between gap-3 px-4 py-4 md:px-6 lg:px-8">
+      <div className="flex min-h-20 items-center justify-between gap-4 px-4 py-4 md:px-6 lg:px-8">
         {/* ============================================
             Left Section
         ============================================ */}
@@ -63,30 +65,35 @@ export default function Header({
               )
             }
             className="rounded-xl p-2 transition hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
-            aria-label="Open Menu"
+            aria-label="Toggle Sidebar"
           >
             <Menu size={22} />
           </button>
 
           {/* ========================================
-              Brand Logo
+              Company Logo
           ======================================== */}
 
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md">
-            <Building2 size={22} />
-          </div>
+          <Image
+            src={logo}
+            alt="RSN Estates"
+            width={180}
+            height={52}
+            priority
+            className="h-10 w-auto shrink-0 md:h-12"
+          />
 
           {/* ========================================
-              Company Name
+              Page Title
           ======================================== */}
 
-          <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold text-slate-900 dark:text-white sm:text-xl md:text-2xl">
-              RSN Estates
+          <div className="hidden min-w-0 border-l border-slate-300 pl-4 dark:border-slate-700 md:block">
+            <h1 className="truncate text-xl font-bold text-slate-900 dark:text-white">
+              {title}
             </h1>
 
-            <p className="hidden text-xs text-slate-500 dark:text-slate-400 md:block">
-              {title}
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              RSN Estates Management Portal
             </p>
           </div>
         </div>
@@ -114,25 +121,10 @@ export default function Header({
           </div>
 
           {/* ========================================
-              Theme
+              Theme Toggle
           ======================================== */}
 
           <ThemeToggle />
-
-          {/* ========================================
-              Logout
-          ======================================== */}
-
-          <LogoutButton />
-
-          {/* ========================================
-              User Profile
-          ======================================== */}
-
-          <UserProfile
-            role={role}
-            profile={profile}
-          />
         </div>
       </div>
     </header>
