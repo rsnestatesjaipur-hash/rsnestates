@@ -1,9 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(
-  process.env.RESEND_API_KEY
-);
-
 interface SendEmailProps {
   to: string | string[];
   subject: string;
@@ -17,6 +13,17 @@ export async function sendEmail({
   html,
   replyTo = "contact@rsnestates.com",
 }: SendEmailProps) {
+  const apiKey =
+    process.env.RESEND_API_KEY;
+
+  if (!apiKey) {
+    throw new Error(
+      "RESEND_API_KEY is not configured."
+    );
+  }
+
+  const resend = new Resend(apiKey);
+
   const { data, error } =
     await resend.emails.send({
       from:
