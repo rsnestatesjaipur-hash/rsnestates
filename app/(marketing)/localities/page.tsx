@@ -4,8 +4,11 @@ import { getAllLocalities } from "@/lib/repositories/localityRepository";
 import { getAllProperties } from "@/lib/repositories/propertyRepository";
 
 export default async function LocalitiesPage() {
-const localities = await getAllLocalities(true);
-const properties = await getAllProperties();
+const localities =
+  await getAllLocalities(true);
+
+const properties =
+  (await getAllProperties()) ?? [];
 
 return (
 <main className="mx-auto max-w-7xl px-6 py-12 transition-colors">
