@@ -78,19 +78,26 @@ export default function PropertySchema({
         property.title,
 
       // ===============================================
-      // Supported Property
+      // Schema.org Supported Properties
       // ===============================================
 
-      numberOfBedrooms:
-        property.bedrooms > 0
-          ? {
-              "@type":
-                "QuantitativeValue",
+      ...(property.bedrooms > 0 && {
+        numberOfRooms:
+          property.bedrooms,
+      }),
 
-              value:
-                property.bedrooms,
-            }
-          : undefined,
+      ...(property.area > 0 && {
+        floorSize: {
+          "@type":
+            "QuantitativeValue",
+
+          value:
+            property.area,
+
+          unitText:
+            property.areaUnit,
+        },
+      }),
 
       address: {
         "@type":
