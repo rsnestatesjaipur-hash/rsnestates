@@ -87,14 +87,15 @@ export default function Header({
               Page Title
           ======================================== */}
 
-          <div className="hidden min-w-0 border-l border-slate-300 pl-4 dark:border-slate-700 md:block">
-            <h1 className="truncate text-xl font-bold text-slate-900 dark:text-white">
-              {title}
+          <div className="min-w-0 border-l border-slate-300 pl-3 dark:border-slate-700">
+            <h1 className="truncate text-base font-bold text-slate-900 dark:text-white md:text-xl">
+              RSN Estates
             </h1>
 
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              RSN Estates Management Portal
+            <p className="hidden text-xs text-slate-500 dark:text-slate-400 md:block">
+              {title}
             </p>
+            
           </div>
         </div>
 
