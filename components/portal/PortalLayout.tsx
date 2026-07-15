@@ -1,6 +1,9 @@
 "use client";
 
-import { ReactNode } from "react";
+import {
+  ReactNode,
+  useState,
+} from "react";
 import { usePathname } from "next/navigation";
 
 import Header from "./Header";
@@ -61,20 +64,50 @@ export default function PortalLayout({
     pageTitles[pathname] ??
     "RSN Estates Portal";
 
+  // ===================================================
+  // Mobile Sidebar
+  // ===================================================
+
+  const [
+    sidebarOpen,
+    setSidebarOpen,
+  ] = useState(false);
+
   return (
     <ProtectedRoute>
-      <div className="flex min-h-screen bg-slate-100 dark:bg-slate-950">
+      <div className="flex min-h-screen overflow-x-hidden bg-slate-100 dark:bg-slate-950">
+        {/* ============================================
+            Mobile Overlay
+        ============================================ */}
+
+        {sidebarOpen && (
+          <div
+            onClick={() =>
+              setSidebarOpen(false)
+            }
+            className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+          />
+        )}
+
         {/* ============================================
             Sidebar
         ============================================ */}
 
-        <Sidebar role={role} />
+        <Sidebar
+          role={role}
+          sidebarOpen={
+            sidebarOpen
+          }
+          setSidebarOpen={
+            setSidebarOpen
+          }
+        />
 
         {/* ============================================
             Main Area
         ============================================ */}
 
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col lg:ml-72">
           {/* ========================================
               Header
           ======================================== */}
@@ -83,13 +116,19 @@ export default function PortalLayout({
             title={title}
             role={role}
             profile={profile}
+            sidebarOpen={
+              sidebarOpen
+            }
+            setSidebarOpen={
+              setSidebarOpen
+            }
           />
 
           {/* ========================================
               Page Content
           ======================================== */}
 
-          <main className="flex-1 p-6">
+          <main className="min-w-0 flex-1 overflow-x-auto p-4 md:p-6">
             {children}
           </main>
         </div>

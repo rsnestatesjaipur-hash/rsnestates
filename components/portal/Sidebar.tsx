@@ -2,7 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Building2 } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+import {
+  Building2,
+  X,
+} from "lucide-react";
 
 import {
   portalNavigation,
@@ -15,6 +19,12 @@ import {
 
 interface SidebarProps {
   role: PortalRole | null;
+
+  sidebarOpen: boolean;
+
+  setSidebarOpen: Dispatch<
+    SetStateAction<boolean>
+  >;
 }
 
 // =====================================================
@@ -23,8 +33,11 @@ interface SidebarProps {
 
 export default function Sidebar({
   role,
+  sidebarOpen,
+  setSidebarOpen,
 }: SidebarProps) {
-  const pathname = usePathname();
+  const pathname =
+    usePathname();
 
   // ===================================================
   // Navigation
@@ -33,8 +46,11 @@ export default function Sidebar({
   const navigation =
     role === null
       ? []
-      : portalNavigation.filter((item) =>
-          item.roles.includes(role)
+      : portalNavigation.filter(
+          (item) =>
+            item.roles.includes(
+              role
+            )
         );
 
   // ===================================================
@@ -42,15 +58,25 @@ export default function Sidebar({
   // ===================================================
 
   return (
-    <aside className="flex h-screen w-72 flex-col border-r border-slate-200 bg-white transition-colors dark:border-slate-800 dark:bg-slate-900">
+    <aside
+      className={[
+        "fixed left-0 top-0 z-50 flex h-screen w-72 flex-col border-r border-slate-200 bg-white transition-transform duration-300 dark:border-slate-800 dark:bg-slate-900",
+        sidebarOpen
+          ? "translate-x-0"
+          : "-translate-x-full",
+        "lg:translate-x-0",
+      ].join(" ")}
+    >
       {/* ===============================================
           Brand
       =============================================== */}
 
-      <div className="border-b border-slate-200 px-8 py-8 dark:border-slate-800">
+      <div className="flex items-center justify-between border-b border-slate-200 px-8 py-8 dark:border-slate-800">
         <div className="flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg">
-            <Building2 size={26} />
+            <Building2
+              size={26}
+            />
           </div>
 
           <div>
@@ -63,46 +89,81 @@ export default function Sidebar({
             </p>
           </div>
         </div>
+
+        {/* Mobile Close */}
+
+        <button
+          type="button"
+          onClick={() =>
+            setSidebarOpen(
+              false
+            )
+          }
+          className="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
+        >
+          <X size={22} />
+        </button>
       </div>
 
       {/* ===============================================
           Navigation
       =============================================== */}
 
-      <nav className="flex-1 space-y-2 p-6">
-        {navigation.map((item) => {
-          const Icon = item.icon;
+      <nav className="flex-1 space-y-2 overflow-y-auto p-6">
+        {navigation.map(
+          (item) => {
+            const Icon =
+              item.icon;
 
-          const active =
-            pathname === item.href ||
-            (item.href !==
-              "/portal/dashboard" &&
-              pathname.startsWith(item.href));
+            const active =
+              pathname ===
+                item.href ||
+              (item.href !==
+                "/portal/dashboard" &&
+                pathname.startsWith(
+                  item.href
+                ));
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={[
-                "group flex items-center gap-4 rounded-2xl px-5 py-4 text-base font-medium transition-all duration-200",
-                active
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800",
-              ].join(" ")}
-            >
-              <Icon
-                size={22}
-                className={
-                  active
-                    ? "text-white"
-                    : "text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white"
+            return (
+              <Link
+                key={
+                  item.href
                 }
-              />
+                href={
+                  item.href
+                }
+                onClick={() =>
+                  setSidebarOpen(
+                    false
+                  )
+                }
+                className={[
+                  "group flex items-center gap-4 rounded-2xl px-5 py-4 text-base font-medium transition-all duration-200",
+                  active
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800",
+                ].join(
+                  " "
+                )}
+              >
+                <Icon
+                  size={22}
+                  className={
+                    active
+                      ? "text-white"
+                      : "text-slate-500 group-hover:text-slate-900 dark:text-slate-400 dark:group-hover:text-white"
+                  }
+                />
 
-              <span>{item.title}</span>
-            </Link>
-          );
-        })}
+                <span>
+                  {
+                    item.title
+                  }
+                </span>
+              </Link>
+            );
+          }
+        )}
       </nav>
 
       {/* ===============================================

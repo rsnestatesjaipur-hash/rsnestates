@@ -95,6 +95,14 @@ export default function Navbar() {
               <ThemeToggle />
             </div>
 
+            {/* Login */}
+            <Link
+              href="/portal/login"
+              className="hidden rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:text-white dark:hover:bg-slate-800 md:inline-flex"
+            >
+              Login
+            </Link>
+
             {/* CTA */}
             <Link
               href="/portal/properties/new"
