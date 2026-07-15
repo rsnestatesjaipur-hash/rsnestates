@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import CopyLinkButton from "@/components/blog/CopyLinkButton";
 
 export const metadata: Metadata = {
   title:
@@ -2007,13 +2008,7 @@ export default function BlogPage() {
                   WhatsApp
                 </Link>
 
-                <button
-                  type="button"
-                  onClick={() => navigator.clipboard.writeText(blogUrl)}
-                  className="rounded-xl bg-slate-900 px-6 py-3 font-semibold text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900"
-                >
-                  Copy Link
-                </button>
+                <CopyLinkButton url={blogUrl} />
 
               </div>
 
