@@ -223,7 +223,9 @@ const bedrooms =
                 "Farm House",
               ].includes(subType)
             ) {
-              title = `${subType} ${label} for ${transactionLabel} in ${locality.name}, Jaipur`;
+              title = bedrooms > 0
+  ? `${bedrooms} BHK ${subType} for ${transactionLabel} in ${locality.name}, Jaipur`
+  : `${subType} for ${transactionLabel} in ${locality.name}, Jaipur`;
             } else {
               title =
                 subType === "Penthouse"
@@ -245,14 +247,16 @@ const bedrooms =
             break;
         }
 
-        const slug = [
-          createSlug(title),
-          propertyType.toLowerCase(),
-          createSlug(subType),
-          transactionType.toLowerCase(),
-          locality.id,
-          i,
-        ].join("-");
+      const slug = [
+        bedrooms > 0 ? `${bedrooms}-bhk` : "",
+        createSlug(subType),
+        transactionType === "Sell" ? "for-sale" : "for-rent",
+        "in",
+        locality.slug,
+        i,
+      ]
+        .filter(Boolean)
+        .join("-");
 
         const builder =
           getBuilder(i);

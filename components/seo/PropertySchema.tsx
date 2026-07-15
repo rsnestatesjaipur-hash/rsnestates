@@ -1,3 +1,8 @@
+// =====================================================
+// Property Schema
+// Schema.org JSON-LD for Individual Property Listing
+// =====================================================
+
 interface PropertySchemaProps {
   property: any;
 }
@@ -5,57 +10,87 @@ interface PropertySchemaProps {
 export default function PropertySchema({
   property,
 }: PropertySchemaProps) {
+  // ===================================================
+  // Determine Property Type
+  // ===================================================
+
+  const propertySchemaType =
+    property.propertySubType === "Apartment"
+      ? "Apartment"
+      : [
+          "Villa",
+          "Duplex Villa",
+          "Independent House",
+          "Bungalow",
+          "Row House",
+          "Farm House",
+          "House",
+        ].includes(
+          property.propertySubType
+        )
+      ? "House"
+      : "Residence";
+
+  // ===================================================
+  // Schema
+  // ===================================================
+
   const schema = {
-    "@context": "https://schema.org",
+    "@context":
+      "https://schema.org",
 
-    "@type": "RealEstateListing",
+    "@type":
+      "RealEstateListing",
 
-    name: property.title,
+    name:
+      property.title,
 
-    description: property.description,
+    description:
+      property.description,
 
     url: `https://www.rsnestates.com/properties/${property.slug}`,
 
-    image: property.images,
+    image:
+      property.images,
 
-    datePosted: property.createdAt,
+    datePosted:
+      property.createdAt,
 
     offers: {
-      "@type": "Offer",
+      "@type":
+        "Offer",
 
-      price: property.price,
+      price:
+        property.price,
 
-      priceCurrency: "INR",
+      priceCurrency:
+        "INR",
 
-      availability: "https://schema.org/InStock",
+      availability:
+        "https://schema.org/InStock",
     },
 
     mainEntity: {
       "@type":
-        property.propertyType === "Apartment"
-          ? "Apartment"
-          : property.propertyType === "Villa"
-          ? "House"
-          : "Residence",
+        propertySchemaType,
 
-      name: property.title,
+      name:
+        property.title,
 
-      numberOfRooms:
-        property.bedrooms,
+      // ===============================================
+      // Supported Property
+      // ===============================================
 
-      numberOfBathroomsTotal:
-        property.bathrooms,
+      numberOfBedrooms:
+        property.bedrooms > 0
+          ? {
+              "@type":
+                "QuantitativeValue",
 
-      floorSize: {
-        "@type":
-          "QuantitativeValue",
-
-        value:
-          property.area,
-
-        unitText:
-          property.areaUnit,
-      },
+              value:
+                property.bedrooms,
+            }
+          : undefined,
 
       address: {
         "@type":
@@ -77,9 +112,10 @@ export default function PropertySchema({
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(
-          schema
-        ),
+        __html:
+          JSON.stringify(
+            schema
+          ),
       }}
     />
   );
