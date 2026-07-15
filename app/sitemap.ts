@@ -13,7 +13,7 @@ import {
 } from "@/lib/utils/programmaticRoutes";
 
 const BASE_URL =
-  "https://rsnestates.com";
+  "https://www.rsnestates.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const urls: MetadataRoute.Sitemap =
