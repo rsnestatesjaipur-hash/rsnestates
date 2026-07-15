@@ -378,9 +378,10 @@ router.replace("/portal/localities");
 
         <LocalitySeoInformation />
 
-        <PublishInformation
-          title="Featured Locality"
-        />
+      <PublishInformation
+        role="admin"
+        canFeatureProperty={true}
+      />
 
         <div className="flex justify-end">
         <button
