@@ -1,8 +1,23 @@
 import Link from "next/link";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export default function AboutPage() {
 return (
-<main className="mx-auto max-w-7xl px-6 py-16 transition-colors">
+<>
+  <BreadcrumbSchema
+    items={[
+      {
+        name: "Home",
+        url: "https://www.rsnestates.com",
+      },
+      {
+        name: "About",
+        url: "https://www.rsnestates.com/about",
+      },
+    ]}
+  />
+
+  <main className="mx-auto max-w-7xl px-6 py-16 transition-colors">
 {/* Hero Section */}
 <section className="text-center">
 <span className="inline-flex rounded-full bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-700">
@@ -137,6 +152,6 @@ About RSN Estates
     </Link>
   </section>
 </main>
-
+</>
 );
 }
