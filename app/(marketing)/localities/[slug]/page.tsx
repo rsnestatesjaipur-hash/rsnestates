@@ -29,15 +29,19 @@ if (!locality) {
   notFound();
 }
 
-const properties = await getAllProperties();
+const properties =
+  (await getAllProperties()) ?? [];
 
-const localityProperties = properties.filter(
-  (property: any) =>
-(property.locality ?? "")
-  .toLowerCase()
-  .trim() ===
-locality.name.toLowerCase().trim()
-);
+const localityProperties =
+  properties.filter(
+    (property: any) =>
+      (property.locality ?? "")
+        .toLowerCase()
+        .trim() ===
+      locality.name
+        .toLowerCase()
+        .trim()
+  );
 
 const propertyTypes = [
   ...new Set(
