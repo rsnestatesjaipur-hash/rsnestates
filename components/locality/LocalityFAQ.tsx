@@ -5,62 +5,47 @@ import {
   MapPinned,
 } from "lucide-react";
 
-const faqs = [
-  {
-    question:
-      "Is this locality a good place to invest?",
-    answer:
-      "Yes. This locality has witnessed steady infrastructure development, increasing demand and excellent long-term appreciation potential.",
-    icon: Landmark,
-  },
-  {
-    question:
-      "What types of properties are available?",
-    answer:
-      "Apartments, villas, independent houses, residential plots and commercial properties are available in this locality.",
-    icon: Building2,
-  },
-  {
-    question:
-      "Is home loan assistance available?",
-    answer:
-      "Yes. RSN Estates can assist you in connecting with leading banks and financial institutions for home loans.",
-    icon: HelpCircle,
-  },
-  {
-    question:
-      "Can I schedule a site visit?",
-    answer:
-      "Absolutely. You can submit an enquiry through our website and our property consultant will arrange a convenient site visit.",
-    icon: MapPinned,
-  },
-];
+interface LocalityFAQProps {
+  localityName: string;
+}
 
-export default function LocalityFAQ() {
+export default function LocalityFAQ({
+  localityName,
+}: LocalityFAQProps) {
+  const faqs = [
+    {
+      question: `Is ${localityName} a good place to invest?`,
+      answer: `${localityName} has witnessed steady infrastructure development, increasing demand and excellent long-term appreciation potential.`,
+      icon: Landmark,
+    },
+    {
+      question: `What types of properties are available in ${localityName}?`,
+      answer: `Apartments, villas, independent houses, residential plots and commercial properties are available in ${localityName}.`,
+      icon: Building2,
+    },
+    {
+      question: `Is home loan assistance available for properties in ${localityName}?`,
+      answer: `Yes. RSN Estates can assist you in connecting with leading banks and financial institutions for home loans in ${localityName}.`,
+      icon: HelpCircle,
+    },
+    {
+      question: `Can I schedule a site visit in ${localityName}?`,
+      answer: `Absolutely. Submit an enquiry and our property consultant will arrange a convenient site visit in ${localityName}.`,
+      icon: MapPinned,
+    },
+  ];
+
   const schema = {
-    "@context":
-      "https://schema.org",
-
-    "@type":
-      "FAQPage",
-
-    mainEntity: faqs.map(
-      (faq) => ({
-        "@type":
-          "Question",
-
-        name:
-          faq.question,
-
-        acceptedAnswer: {
-          "@type":
-            "Answer",
-
-          text:
-            faq.answer,
-        },
-      })
-    ),
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
   };
 
   return (
@@ -68,10 +53,7 @@ export default function LocalityFAQ() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html:
-            JSON.stringify(
-              schema
-            ),
+          __html: JSON.stringify(schema),
         }}
       />
 
@@ -81,49 +63,36 @@ export default function LocalityFAQ() {
         </h2>
 
         <p className="mt-4 text-lg text-slate-600 dark:text-slate-300">
-          Answers to some of the most common questions asked by property buyers and investors.
+          Answers to common questions about {localityName}.
         </p>
 
         <div className="mt-10 space-y-6">
-          {faqs.map(
-            (faq) => {
-              const Icon =
-                faq.icon;
+          {faqs.map((faq) => {
+            const Icon = faq.icon;
 
-              return (
-                <div
-                  key={
-                    faq.question
-                  }
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-colors dark:border-slate-700 dark:bg-slate-900"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
-                      <Icon
-                        size={
-                          22
-                        }
-                      />
-                    </div>
+            return (
+              <div
+                key={faq.question}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-colors dark:border-slate-700 dark:bg-slate-900"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                    <Icon size={22} />
+                  </div>
 
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                        {
-                          faq.question
-                        }
-                      </h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                      {faq.question}
+                    </h3>
 
-                      <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
-                        {
-                          faq.answer
-                        }
-                      </p>
-                    </div>
+                    <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
+                      {faq.answer}
+                    </p>
                   </div>
                 </div>
-              );
-            }
-          )}
+              </div>
+            );
+          })}
         </div>
       </section>
     </>

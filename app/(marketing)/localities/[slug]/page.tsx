@@ -221,7 +221,7 @@ const city =
 
       <WhyInvest locality={locality} />
 
-      <LocalityFAQ />
+      <LocalityFAQ localityName={locality.name} />
 
       <section className="mt-20">
         <h2 className="mb-8 text-4xl font-bold text-slate-900 dark:text-white">

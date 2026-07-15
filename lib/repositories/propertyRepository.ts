@@ -199,7 +199,7 @@ export async function getAllProperties() {
     `)
     .eq("published", true);
 
-if (role !== "admin") {
+if (role && role !== "admin") {
   const supabase =
     await createAuthClient();
 
@@ -274,7 +274,7 @@ export async function getPropertyById(
     `)
     .eq("id", id);
 
-if (role !== "admin") {
+if (role && role !== "admin") {
   const supabase =
     await createAuthClient();
 
