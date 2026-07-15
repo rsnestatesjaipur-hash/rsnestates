@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+
 import { Toaster } from "sonner";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import GlobalSchema from "@/components/seo/GlobalSchema";
 
 export const metadata: Metadata = {
   title: "RSN Estates",
@@ -17,7 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
+
+        <GlobalSchema />
+
         <ThemeProvider>
+
           {children}
 
           <Toaster
@@ -26,7 +32,9 @@ export default function RootLayout({
             closeButton
             duration={2500}
           />
+
         </ThemeProvider>
+
       </body>
     </html>
   );
