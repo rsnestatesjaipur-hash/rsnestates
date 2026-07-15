@@ -10,7 +10,9 @@ import LocalityPriceTrends from "@/components/locality/LocalityPriceTrends";
 import WhyInvest from "@/components/locality/WhyInvest";
 import LocalityFAQ from "@/components/locality/LocalityFAQ";
 import LocalityQuickFacts from "@/components/locality/LocalityQuickFacts";
-
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
+import FaqSchema from "@/components/seo/FaqSchema";
+import LocalBusinessSchema from "@/components/seo/LocalBusinessSchema";
 
 interface LocalityPageProps {
   params: Promise<{
@@ -55,6 +57,52 @@ const city =
   localityProperties[0]?.city ?? "Jaipur";
 
   return (
+    <>
+  <BreadcrumbSchema
+    items={[
+      {
+        name: "Home",
+        url: "https://www.rsnestates.com",
+      },
+      {
+        name: "Localities",
+        url: "https://www.rsnestates.com/localities",
+      },
+      {
+        name: locality.name,
+        url: `https://www.rsnestates.com/localities/${locality.slug}`,
+      },
+    ]}
+  />
+
+  <FaqSchema
+    faqs={[
+      {
+        question: "Is this locality a good place to invest?",
+        answer:
+          "Yes. This locality has witnessed steady infrastructure development, increasing demand and excellent long-term appreciation potential.",
+      },
+      {
+        question: "What types of properties are available?",
+        answer:
+          "Apartments, villas, independent houses, residential plots and commercial properties are available in this locality.",
+      },
+      {
+        question: "Is home loan assistance available?",
+        answer:
+          "Yes. RSN Estates can assist you in connecting with leading banks and financial institutions for home loans.",
+      },
+      {
+        question: "Can I schedule a site visit?",
+        answer:
+          "Absolutely. You can submit an enquiry through our website and our property consultant will arrange a convenient site visit.",
+      },
+    ]}
+  />
+
+  <LocalBusinessSchema />
+
+  <main className="mx-auto max-w-7xl px-6 py-12"></main>
     <main className="mx-auto max-w-7xl px-6 py-12">
       <nav className="mb-8 flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
       <Link
@@ -220,6 +268,7 @@ const city =
           </div>
         )}
       </section>
-    </main>
+   </main>
+    </>
   );
 }
