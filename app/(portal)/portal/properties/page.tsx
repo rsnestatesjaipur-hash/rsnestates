@@ -6,10 +6,14 @@ import { getAllProperties } from "@/lib/repositories/propertyRepository";
 import { getCurrentUserRole } from "@/lib/auth/getCurrentUserRole";
 
 export default async function PropertiesPage() {
-  const [properties, role] = await Promise.all([
-  getAllProperties(),
-  getCurrentUserRole(),
-]);
+const [propertiesResult, role] =
+  await Promise.all([
+    getAllProperties(),
+    getCurrentUserRole(),
+  ]);
+
+const properties =
+  propertiesResult ?? [];
 
   return (
     <div className="space-y-8">

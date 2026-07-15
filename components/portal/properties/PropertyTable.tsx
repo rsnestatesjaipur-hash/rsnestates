@@ -20,7 +20,11 @@ import type { Property } from "@/types";
 
 interface PropertyTableProps {
   properties: Property[];
-  role: "admin" | "subadmin" | null;
+  role:
+    | "admin"
+    | "subadmin"
+    | "user"
+    | null;
 }
 
 export default function PropertyTable({
