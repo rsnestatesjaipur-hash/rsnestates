@@ -1,7 +1,11 @@
 "use client";
 
 import { Dispatch, SetStateAction } from "react";
-import { Menu, Search } from "lucide-react";
+import {
+  Building2,
+  Menu,
+  Search,
+} from "lucide-react";
 
 import ThemeToggle from "@/components/common/ThemeToggle";
 import LogoutButton from "@/components/portal/LogoutButton";
@@ -41,13 +45,15 @@ export default function Header({
 }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-      <div className="flex min-h-20 items-center justify-between gap-4 px-4 py-4 md:px-6 lg:px-8">
+      <div className="flex min-h-20 items-center justify-between gap-3 px-4 py-4 md:px-6 lg:px-8">
         {/* ============================================
             Left Section
         ============================================ */}
 
-        <div className="flex min-w-0 items-center gap-4">
-          {/* Mobile Menu */}
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          {/* ========================================
+              Mobile Menu
+          ======================================== */}
 
           <button
             type="button"
@@ -62,15 +68,25 @@ export default function Header({
             <Menu size={22} />
           </button>
 
-          {/* Title */}
+          {/* ========================================
+              Brand Logo
+          ======================================== */}
+
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-md">
+            <Building2 size={22} />
+          </div>
+
+          {/* ========================================
+              Company Name
+          ======================================== */}
 
           <div className="min-w-0">
-            <h1 className="truncate text-2xl font-bold text-slate-900 dark:text-white md:text-3xl">
-              {title}
+            <h1 className="truncate text-lg font-bold text-slate-900 dark:text-white sm:text-xl md:text-2xl">
+              RSN Estates
             </h1>
 
-            <p className="hidden text-sm text-slate-500 dark:text-slate-400 md:block">
-              Welcome to the RSN Estates Management Portal
+            <p className="hidden text-xs text-slate-500 dark:text-slate-400 md:block">
+              {title}
             </p>
           </div>
         </div>
@@ -79,8 +95,10 @@ export default function Header({
             Right Section
         ============================================ */}
 
-        <div className="flex items-center gap-2 md:gap-4">
-          {/* Search */}
+        <div className="flex shrink-0 items-center gap-2 md:gap-4">
+          {/* ========================================
+              Search
+          ======================================== */}
 
           <div className="relative hidden xl:block">
             <Search
@@ -95,15 +113,21 @@ export default function Header({
             />
           </div>
 
-          {/* Theme */}
+          {/* ========================================
+              Theme
+          ======================================== */}
 
           <ThemeToggle />
 
-          {/* Logout */}
+          {/* ========================================
+              Logout
+          ======================================== */}
 
           <LogoutButton />
 
-          {/* User */}
+          {/* ========================================
+              User Profile
+          ======================================== */}
 
           <UserProfile
             role={role}
