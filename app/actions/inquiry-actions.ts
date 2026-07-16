@@ -55,7 +55,7 @@ export async function createInquiry(
         "Security verification failed.",
     };
   }
-  
+
   const parsed = parseInquiry(formData);
 
   const emailVerifyToken =
@@ -121,10 +121,11 @@ export async function createInquiry(
       }
     );
 
-  const result =
-    await response.json();
+const result = await response.json();
 
-  return result.success === true;
+console.log("Turnstile verification:", result);
+
+return result.success === true;
 }
 
 const website = "https://rsnestates.com";

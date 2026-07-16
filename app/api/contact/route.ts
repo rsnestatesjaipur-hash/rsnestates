@@ -28,10 +28,11 @@ async function verifyTurnstile(
       }
     );
 
-  const result =
-    await response.json();
+const result = await response.json();
 
-  return result.success === true;
+console.log("Turnstile verification:", result);
+
+return result.success === true;
 }
 
 export async function POST(request: NextRequest) {
@@ -214,11 +215,18 @@ html: `
       success: true,
     });
   } catch (error) {
-    console.error(error);
+    console.error(
+      "CONTACT API ERROR:",
+      error
+    );
 
     return NextResponse.json(
       {
         success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : String(error),
       },
       {
         status: 500,

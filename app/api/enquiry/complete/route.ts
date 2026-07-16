@@ -28,10 +28,11 @@ async function verifyTurnstile(
       }
     );
 
-  const result =
-    await response.json();
+const result = await response.json();
 
-  return result.success === true;
+console.log("Turnstile verification:", result);
+
+return result.success === true;
 }
 
 export async function POST(

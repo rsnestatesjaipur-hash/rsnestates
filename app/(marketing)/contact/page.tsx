@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import LocalitySelect from "@/components/common/LocalitySelect";
+import TurnstileWidget from "@/components/common/TurnstileWidget";
 
 type EnquiryType =
   | "buy"
@@ -26,6 +27,9 @@ export default function ContactPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const [turnstileToken, setTurnstileToken] =
+  useState("");
+
   // =====================================================
   // Submit Handler
   // =====================================================
@@ -40,10 +44,19 @@ async function handleSubmit(
   try {
 const formData = new FormData(form);
 
-const data = {
-  enquiryType,
-  ...Object.fromEntries(formData.entries()),
-};
+  const data = {
+    enquiryType,
+    ...Object.fromEntries(formData.entries()),
+    "cf-turnstile-response":
+      turnstileToken,
+  };
+
+  if (!turnstileToken) {
+  setErrorMessage(
+    "Please complete the security verification."
+  );
+  return;
+}
 
 const response = await fetch(
   "/api/contact",
@@ -57,14 +70,37 @@ const response = await fetch(
   }
 );
 
+const result =
+  await response.json();
+
 if (!response.ok) {
-  throw new Error(
-    "Failed to submit enquiry."
+  setSuccessMessage("");
+
+  console.error(
+    "API Error:",
+    JSON.stringify(
+      result,
+      null,
+      2
+    )
   );
+
+  setErrorMessage(
+    JSON.stringify(
+      result,
+      null,
+      2
+    )
+  );
+
+  return;
 }
 
 setErrorMessage("");
-setSuccessMessage("✅ Thank you! Your enquiry has been submitted successfully.");
+
+setSuccessMessage(
+  "✅ Thank you! Your enquiry has been submitted successfully."
+);
 
 setTimeout(() => {
   setSuccessMessage("");
@@ -73,6 +109,9 @@ setTimeout(() => {
 form.reset();
 
 setEnquiryType("buy");
+
+setTurnstileToken("");
+
     } catch (error) {
       console.error(error);
 
@@ -222,6 +261,18 @@ setErrorMessage("❌ Something went wrong. Please try again.");
             className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-amber-500 dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:placeholder:text-slate-400"
           />
         </div>
+
+            <TurnstileWidget
+              onVerify={(token) =>
+                setTurnstileToken(token)
+              }
+              onExpire={() =>
+                setTurnstileToken("")
+              }
+              onError={() =>
+                setTurnstileToken("")
+              }
+            />
 
             {/* ============================================
                 Submit Button
