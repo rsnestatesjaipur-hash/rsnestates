@@ -70,9 +70,9 @@ export default function PropertyCard({
           </p>
 
           <p className="mt-3 text-slate-600 transition-colors dark:text-slate-300">
-            {property.bedrooms} BHK •{" "}
-            {property.area}{" "}
-            {property.areaUnit}
+            {property.propertyType === "Plot"
+              ? `${property.area} ${property.areaUnit}`
+              : `${property.bedrooms} BHK • ${property.area} ${property.areaUnit}`}
           </p>
 
           <div className="mt-6 flex items-center justify-between">

@@ -111,18 +111,20 @@ urls.push(publicUrl);
       success: true,
       urls,
     });
-  } catch (error) {
-    console.error(error);
+    } catch (error) {
+      console.error("UPLOAD ERROR:", error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        message:
-          "Image upload failed.",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "Image upload failed.",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
 }
