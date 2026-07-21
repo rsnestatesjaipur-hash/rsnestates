@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 
+import { writeFile } from "fs/promises";
+import path from "path";
+
 import { uploadOptimizedImage } from "@/lib/supabase/storage";
 
 export const runtime = "nodejs";
@@ -38,39 +41,70 @@ export async function POST(
         arrayBuffer
       );
 
-      const optimizedBuffer =
-        await sharp(buffer)
-          .rotate()
-          .resize({
-            width: 1920,
-            height: 1920,
-            fit: "inside",
-            withoutEnlargement: true,
-          })
-          .webp({
-            quality: 75,
-            effort: 6,
-          })
-          .toBuffer();
+const optimizedBuffer =
+  await sharp(buffer)
+    .rotate()
+    .resize({
+      width: 1920,
+      height: 1920,
+      fit: "inside",
+      withoutEnlargement: true,
+    })
+    .webp({
+      quality: 75,
+      effort: 6,
+    })
+    .toBuffer();
 
-      console.log(
-        `${file.name}: ${(
-          buffer.length /
-          1024 /
-          1024
-        ).toFixed(2)} MB → ${(
-          optimizedBuffer.length /
-          1024 /
-          1024
-        ).toFixed(2)} MB`
-      );
+console.log(
+  `${file.name}: ${(
+    buffer.length /
+    1024 /
+    1024
+  ).toFixed(2)} MB → ${(
+    optimizedBuffer.length /
+    1024 /
+    1024
+  ).toFixed(2)} MB`
+);
 
-      const publicUrl =
-        await uploadOptimizedImage(
-          optimizedBuffer
-        );
+const metadata =
+  await sharp(
+    optimizedBuffer
+  ).metadata();
 
-      urls.push(publicUrl);
+console.log(
+  "Optimized Image Metadata:",
+  metadata
+);
+
+const debugFile = path.join(
+  process.cwd(),
+  "public",
+  "debug-upload.webp"
+);
+
+await writeFile(
+  debugFile,
+  optimizedBuffer
+);
+
+console.log(
+  "Debug image written to:",
+  debugFile
+);
+
+const publicUrl =
+  await uploadOptimizedImage(
+    optimizedBuffer
+  );
+
+console.log(
+  "Uploaded Image URL:",
+  publicUrl
+);
+
+urls.push(publicUrl);
     }
 
     return NextResponse.json({
