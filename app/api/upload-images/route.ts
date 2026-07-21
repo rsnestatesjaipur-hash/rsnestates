@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 
-import { writeFile } from "fs/promises";
-import path from "path";
-
 import { uploadOptimizedImage } from "@/lib/supabase/storage";
 
 export const runtime = "nodejs";
@@ -13,8 +10,8 @@ export const runtime = "nodejs";
    ---------------------------------------------------------
    Flow:
    1. Receive uploaded files.
-   2. Optimize using Sharp.
-   3. Save a debug copy locally (development only).
+   2. Optimize each image using Sharp.
+   3. Log optimization details.
    4. Upload optimized image to Supabase Storage.
    5. Return public URLs.
 ========================================================= */
@@ -127,36 +124,19 @@ export async function POST(
       );
 
       /* ---------------------------------------------------
-         Save Debug Copy
-         (Useful for local & production debugging)
-      --------------------------------------------------- */
-
-      const debugFile = path.join(
-        process.cwd(),
-        "public",
-        "debug-upload.webp"
-      );
-
-      await writeFile(
-        debugFile,
-        optimizedBuffer
-      );
-
-      console.log(
-        "STEP 4 - Debug image written:",
-        debugFile
-      );
-
-      /* ---------------------------------------------------
          Upload to Supabase Storage
       --------------------------------------------------- */
+
+      console.log(
+        "STEP 4 - Uploading to Supabase..."
+      );
 
       const publicUrl =
         await uploadOptimizedImage(
           optimizedBuffer
         );
 
-        if (!publicUrl) {
+      if (!publicUrl) {
         throw new Error(
           "Supabase returned an empty public URL."
         );
