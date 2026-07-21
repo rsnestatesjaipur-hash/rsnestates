@@ -110,7 +110,40 @@ export default function PlotSpecifications() {
           )}
         </div>
       </div>
+      
+      <div className="rounded-2xl border border-slate-200 p-6 dark:border-slate-700">
+  <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+    Property Status
+  </h3>
 
+  <div className="mt-6">
+    <label className="mb-2 block font-semibold text-slate-700 dark:text-slate-200">
+      Status
+    </label>
+
+    <Select {...register("propertyStatus")}>
+      <option value="Ready to Move">
+        Ready to Move
+      </option>
+
+      <option value="Under Construction">
+        Under Construction
+      </option>
+
+      <option value="New Launch">
+        New Launch
+      </option>
+
+      <option value="Resale">
+        Resale
+      </option>
+
+      <option value="Sold Out">
+        Sold Out
+      </option>
+    </Select>
+  </div>
+</div>
       {/* =====================================================
           Plot Details
       ====================================================== */}

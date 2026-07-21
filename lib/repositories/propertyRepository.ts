@@ -25,6 +25,9 @@ function mapProperty(property: any) {
         ? "Sell"
         : property.transaction_type,
 
+    propertyStatus:
+      property.property_status,
+
     localityId:
       String(property.locality_id),
 
