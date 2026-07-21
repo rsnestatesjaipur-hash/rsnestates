@@ -627,7 +627,10 @@ if (role !== "admin") {
     await buildPayload(parsed);
 
   // Preserve the existing slug entered in the form
-  payload.slug = parsed.data.slug;
+  payload.slug =
+    parsed.data.slug.trim() !== ""
+      ? parsed.data.slug.trim()
+      : payload.slug;
 
 // =============================================
 // Preserve ownership during update
