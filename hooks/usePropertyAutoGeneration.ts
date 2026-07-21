@@ -38,6 +38,7 @@ const bedrooms = values.bedrooms;
 const area = values.area;
 const areaUnit = values.areaUnit;
 const description = values.description;
+const locality = values.locality;
 
   useEffect(() => {
 
@@ -75,7 +76,11 @@ const description = values.description;
         title = "";
     }
 
-    title = title.trim();
+    if (locality?.trim()) {
+        title = `${title} on ${locality.trim()}`;
+      }
+
+      title = title.trim();
     console.log("AUTO TITLE:", title);
 
     // Auto Title

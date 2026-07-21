@@ -231,6 +231,7 @@ async function onSubmit(
   data: LocalityFormValues
 ) {
 
+  console.log("✅ onSubmit called");
   console.log("Form Data:", data);
 
   try {
@@ -353,6 +354,7 @@ router.replace("/portal/localities");
 
   return (
     <FormProvider {...methods}>
+      console.log("Validation Errors:", methods.formState.errors);
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
         className="space-y-8"

@@ -55,6 +55,16 @@ export default function PropertyForm({
   role,
   canFeatureProperty,
 }: PropertyFormProps) {
+
+  console.log(
+    "INITIAL DATA:",
+    initialData
+  );
+
+  console.log(
+    "INITIAL propertyStatus:",
+    initialData?.propertyStatus
+  );
   const router = useRouter();
 
   const [files, setFiles] = useState<File[]>([]);
@@ -257,16 +267,29 @@ const gatedCommunity =
         onSubmit,
           (errors) => {
             console.log("========== EDIT FORM ERRORS ==========");
-
             console.log(errors);
 
             Object.entries(errors).forEach(([field, error]) => {
               console.log(
+                "FIELD:",
                 field,
+                "MESSAGE:",
                 error?.message,
+                "VALUE:",
                 methods.getValues(field as keyof PropertyFormValues)
               );
             });
+
+            alert(
+              JSON.stringify(errors, null, 2)
+            );
+
+            const firstError = Object.values(errors)[0];
+
+            toast.error(
+              firstError?.message ??
+                "Validation failed."
+            );
           }
       )}
         className="space-y-8"

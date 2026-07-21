@@ -50,6 +50,24 @@ export default function PropertySpecifications({
             icon: Building2,
           },
         ]
+      : property.propertyType === "Plot"
+      ? [
+          {
+            label: "Area",
+            value: `${property.area} ${property.areaUnit}`,
+            icon: Ruler,
+          },
+          {
+            label: "Locality",
+            value: property.locality,
+            icon: MapPin,
+          },
+          {
+            label: "City",
+            value: property.city,
+            icon: Building2,
+          },
+        ]
       : [
           {
             label: "Bedrooms",

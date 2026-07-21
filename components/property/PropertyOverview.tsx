@@ -54,9 +54,9 @@ export default function PropertyOverview({
 
             <p className="mt-2 whitespace-nowrap text-xl font-bold text-slate-900 dark:text-white">
               ₹
-              {(
-                property.securityDeposit ?? 0
-              ).toLocaleString("en-IN")}
+              {(property.securityDeposit ?? 0).toLocaleString(
+                "en-IN"
+              )}
             </p>
           </div>
         )}
@@ -90,11 +90,29 @@ export default function PropertyOverview({
         </div>
 
         {/* ================================================
-            Residential Only
+            Residential Properties
+            Commercial:
+              - Hide Property Type
+              - Hide Bedrooms
+              - Hide Bathrooms
+
+            Plot:
+              - Show Property Type
+              - Hide Bedrooms
+              - Hide Bathrooms
+
+            Apartment / Villa:
+              - Show Property Type
+              - Show Bedrooms
+              - Show Bathrooms
         ================================================ */}
 
         {property.propertyType !== "Commercial" && (
           <>
+            {/* ================================================
+                Property Type
+            ================================================ */}
+
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors dark:border-slate-700 dark:bg-slate-900">
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                 Property Type
@@ -105,25 +123,34 @@ export default function PropertyOverview({
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors dark:border-slate-700 dark:bg-slate-900">
-              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                Bedrooms
-              </p>
+            {/* ================================================
+                Bedrooms & Bathrooms
+                Hide for Plot
+            ================================================ */}
 
-              <p className="mt-2 whitespace-nowrap text-xl font-bold text-slate-900 dark:text-white">
-                {property.bedrooms}
-              </p>
-            </div>
+            {property.propertyType !== "Plot" && (
+              <>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors dark:border-slate-700 dark:bg-slate-900">
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                    Bedrooms
+                  </p>
 
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors dark:border-slate-700 dark:bg-slate-900">
-              <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                Bathrooms
-              </p>
+                  <p className="mt-2 whitespace-nowrap text-xl font-bold text-slate-900 dark:text-white">
+                    {property.bedrooms}
+                  </p>
+                </div>
 
-              <p className="mt-2 whitespace-nowrap text-xl font-bold text-slate-900 dark:text-white">
-                {property.bathrooms}
-              </p>
-            </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors dark:border-slate-700 dark:bg-slate-900">
+                  <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+                    Bathrooms
+                  </p>
+
+                  <p className="mt-2 whitespace-nowrap text-xl font-bold text-slate-900 dark:text-white">
+                    {property.bathrooms}
+                  </p>
+                </div>
+              </>
+            )}
           </>
         )}
 

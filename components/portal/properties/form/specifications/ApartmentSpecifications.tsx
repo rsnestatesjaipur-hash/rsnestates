@@ -10,14 +10,20 @@ import Input from "@/components/ui/Input";
 import { PropertyFormValues } from "@/lib/validations/property";
 
 export default function ApartmentSpecifications() {
-    const {
+  const {
     register,
     setValue,
-    } = useFormContext<PropertyFormValues>();
+    watch,
+  } = useFormContext<PropertyFormValues>();
 
     useEffect(() => {
     setValue("areaUnit", "Sq.Ft");
     }, [setValue]);
+
+    console.log(
+      "propertyStatus =",
+      watch("propertyStatus")
+    );
 
   return (
     <div className="space-y-10">
