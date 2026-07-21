@@ -46,14 +46,16 @@ export async function uploadOptimizedImage(
 
   const filePath = `${folder}/${fileName}`;
 
-  const { error } =
-    await supabaseServer.storage
-      .from("property-images")
-      .upload(filePath, imageBuffer, {
-        contentType: "image/webp",
-        cacheControl: "3600",
-        upsert: false,
-      });
+const bytes = new Uint8Array(imageBuffer);
+
+const { error } =
+  await supabaseServer.storage
+    .from("property-images")
+    .upload(filePath, bytes, {
+      contentType: "image/webp",
+      cacheControl: "3600",
+      upsert: false,
+    });
 
   if (error) {
     throw error;
