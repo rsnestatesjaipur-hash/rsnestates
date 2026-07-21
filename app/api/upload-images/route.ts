@@ -8,10 +8,29 @@ import { uploadOptimizedImage } from "@/lib/supabase/storage";
 
 export const runtime = "nodejs";
 
+/* =========================================================
+   Upload Optimized Property Images
+   ---------------------------------------------------------
+   Flow:
+   1. Receive uploaded files.
+   2. Optimize using Sharp.
+   3. Save a debug copy locally (development only).
+   4. Upload optimized image to Supabase Storage.
+   5. Return public URLs.
+========================================================= */
+
 export async function POST(
   request: NextRequest
 ) {
   try {
+    console.log(
+      "========== IMAGE UPLOAD START =========="
+    );
+
+    /* =====================================================
+       Read Form Data
+    ===================================================== */
+
     const formData =
       await request.formData();
 
@@ -31,9 +50,26 @@ export async function POST(
       );
     }
 
+    console.log(
+      `Received ${files.length} image(s).`
+    );
+
     const urls: string[] = [];
 
+    /* =====================================================
+       Process Every Image
+    ===================================================== */
+
     for (const file of files) {
+      console.log(
+        "STEP 1 - Processing:",
+        file.name
+      );
+
+      /* ---------------------------------------------------
+         Convert File → Buffer
+      --------------------------------------------------- */
+
       const arrayBuffer =
         await file.arrayBuffer();
 
@@ -41,90 +77,134 @@ export async function POST(
         arrayBuffer
       );
 
-const optimizedBuffer =
-  await sharp(buffer)
-    .rotate()
-    .resize({
-      width: 1920,
-      height: 1920,
-      fit: "inside",
-      withoutEnlargement: true,
-    })
-    .webp({
-      quality: 75,
-      effort: 6,
-    })
-    .toBuffer();
+      console.log(
+        "STEP 2 - Buffer created"
+      );
 
-console.log(
-  `${file.name}: ${(
-    buffer.length /
-    1024 /
-    1024
-  ).toFixed(2)} MB → ${(
-    optimizedBuffer.length /
-    1024 /
-    1024
-  ).toFixed(2)} MB`
-);
+      /* ---------------------------------------------------
+         Optimize Image
+      --------------------------------------------------- */
 
-const metadata =
-  await sharp(
-    optimizedBuffer
-  ).metadata();
+      const optimizedBuffer =
+        await sharp(buffer)
+          .rotate()
+          .resize({
+            width: 1920,
+            height: 1920,
+            fit: "inside",
+            withoutEnlargement: true,
+          })
+          .webp({
+            quality: 75,
+            effort: 6,
+          })
+          .toBuffer();
 
-console.log(
-  "Optimized Image Metadata:",
-  metadata
-);
+      console.log(
+        "STEP 3 - Sharp optimization completed"
+      );
 
-const debugFile = path.join(
-  process.cwd(),
-  "public",
-  "debug-upload.webp"
-);
+      console.log(
+        `${file.name}: ${(
+          buffer.length /
+          1024 /
+          1024
+        ).toFixed(2)} MB → ${(
+          optimizedBuffer.length /
+          1024 /
+          1024
+        ).toFixed(2)} MB`
+      );
 
-await writeFile(
-  debugFile,
-  optimizedBuffer
-);
+      const metadata =
+        await sharp(
+          optimizedBuffer
+        ).metadata();
 
-console.log(
-  "Debug image written to:",
-  debugFile
-);
+      console.log(
+        "Optimized Image Metadata:",
+        metadata
+      );
 
-const publicUrl =
-  await uploadOptimizedImage(
-    optimizedBuffer
-  );
+      /* ---------------------------------------------------
+         Save Debug Copy
+         (Useful for local & production debugging)
+      --------------------------------------------------- */
 
-console.log(
-  "Uploaded Image URL:",
-  publicUrl
-);
+      const debugFile = path.join(
+        process.cwd(),
+        "public",
+        "debug-upload.webp"
+      );
 
-urls.push(publicUrl);
+      await writeFile(
+        debugFile,
+        optimizedBuffer
+      );
+
+      console.log(
+        "STEP 4 - Debug image written:",
+        debugFile
+      );
+
+      /* ---------------------------------------------------
+         Upload to Supabase Storage
+      --------------------------------------------------- */
+
+      const publicUrl =
+        await uploadOptimizedImage(
+          optimizedBuffer
+        );
+
+        if (!publicUrl) {
+        throw new Error(
+          "Supabase returned an empty public URL."
+        );
+      }
+
+      console.log(
+        "STEP 5 - Uploaded:",
+        publicUrl
+      );
+
+      urls.push(publicUrl);
     }
+
+    console.log(
+      "========== IMAGE UPLOAD SUCCESS =========="
+    );
 
     return NextResponse.json({
       success: true,
       urls,
     });
-    } catch (error) {
-      console.error("UPLOAD ERROR:", error);
+  } catch (error) {
+    console.error(
+      "========== IMAGE UPLOAD FAILED =========="
+    );
 
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            error instanceof Error
-              ? error.message
-              : "Image upload failed.",
-        },
-        {
-          status: 500,
-        }
-      );
-    }
+    console.error(
+      "UPLOAD ERROR DETAILS:",
+      error instanceof Error
+        ? {
+            name: error.name,
+            message: error.message,
+            stack: error.stack,
+          }
+        : error
+    );
+
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Image upload failed.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
