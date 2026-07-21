@@ -32,6 +32,51 @@ const categories = [
 export default async function PropertyCategories() {
   const properties = await getProperties();
 
+  /* =========================================================
+     TEMPORARY DIAGNOSTICS
+  ========================================================= */
+
+  console.log(
+    "TOTAL PROPERTIES:",
+    properties.length
+  );
+
+  console.log(
+    "PROPERTY TYPES:",
+    properties.map(
+      (property) => property.property_type
+    )
+  );
+
+  console.log(
+    "CATEGORY COUNTS:",
+    {
+      Apartment: properties.filter(
+        (property) =>
+          property.property_type ===
+          "Apartment"
+      ).length,
+
+      Villa: properties.filter(
+        (property) =>
+          property.property_type ===
+          "Villa"
+      ).length,
+
+      Plot: properties.filter(
+        (property) =>
+          property.property_type ===
+          "Plot"
+      ).length,
+
+      Commercial: properties.filter(
+        (property) =>
+          property.property_type ===
+          "Commercial"
+      ).length,
+    }
+  );
+
   return (
     <Section className="bg-white transition-colors dark:bg-slate-950">
       <Container>
@@ -54,7 +99,8 @@ export default async function PropertyCategories() {
           {categories.map((category) => {
             const count = properties.filter(
               (property) =>
-                property.property_type === category.type
+                property.property_type ===
+                category.type
             ).length;
 
             return (
