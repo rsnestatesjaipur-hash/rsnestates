@@ -23,6 +23,8 @@ register,
 formState: { errors },
 } = useFormContext<PropertyFormValues>();
 
+console.log("Localities:", localities);
+
 return (
 <Card className="p-8">
 <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
@@ -81,7 +83,15 @@ Location Information
         Locality
       </label>
 
-      <Select {...register("localityId")}>
+      <Select
+          {...register("localityId")}
+          onChange={(e) => {
+            console.log(
+              "Selected localityId:",
+              e.target.value
+            );
+          }}
+        >
         <option value="">
           Select Locality
         </option>
