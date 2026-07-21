@@ -252,7 +252,10 @@ const gatedCommunity =
       console.error(error);
 
       toast.error(
-        "Failed to upload one or more images."
+        "Failed to upload one or more images.",
+        {
+          id: "property-upload",
+        }
       );
     } finally {
       setUploadProgress(0);
