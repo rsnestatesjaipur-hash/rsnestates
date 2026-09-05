@@ -1,9 +1,4 @@
 export default function GlobalSchema() {
-  /**
-   * ============================================================
-   * GLOBAL WEBSITE STRUCTURED DATA
-   * ============================================================
-   */
 
   const BASE_URL =
     "https://www.rsnestates.com";
@@ -16,7 +11,8 @@ export default function GlobalSchema() {
     {
       "@context": "https://schema.org",
 
-      "@type": "Organization",
+      "@type":
+        "Organization",
 
       "@id":
         `${BASE_URL}/#organization`,
@@ -91,10 +87,6 @@ export default function GlobalSchema() {
       },
     },
 
-    // ========================================================
-    // WebSite
-    // ========================================================
-
     {
       "@context": "https://schema.org",
 
@@ -113,17 +105,6 @@ export default function GlobalSchema() {
       publisher: {
         "@id":
           `${BASE_URL}/#organization`,
-      },
-
-      potentialAction: {
-        "@type":
-          "SearchAction",
-
-        target:
-          `${BASE_URL}/properties?search={search_term_string}`,
-
-        "query-input":
-          "required name=search_term_string",
       },
     },
   ];
