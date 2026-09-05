@@ -438,6 +438,53 @@ export default function JaipurPlotInvestmentClient() {
       </section>
 
       {/* =========================================================
+          SITE VIDEO
+          Actual site video for visitor trust and evaluation.
+          Video is intentionally placed after the photo gallery
+          and before the development features.
+      ========================================================= */}
+      <section className="bg-slate-950 py-20 text-white sm:py-24">
+        <div className="mx-auto max-w-5xl px-6 lg:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-wider text-amber-400">
+              See The Actual Site
+            </p>
+
+            <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
+              Site Video of the Plotted Development Near NIMS University, Jaipur
+            </h2>
+
+            <p className="mt-5 text-lg leading-8 text-slate-300">
+              Watch the actual site video to get a better understanding of the
+              plotted development, internal roads, surroundings and current site
+              conditions before planning your investment or site visit.
+            </p>
+          </div>
+
+          <div className="mt-12 overflow-hidden rounded-2xl border border-slate-800 bg-black shadow-2xl">
+            <video
+              className="block aspect-video w-full"
+              controls
+              preload="metadata"
+              playsInline
+              aria-label="Actual site video of plotted development near NIMS University, Jaipur"
+            >
+              <source
+                src="/videos/site_video.mp4"
+                type="video/mp4"
+              />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <p className="mt-5 text-center text-sm text-slate-400">
+            Actual site footage. Current development, plot availability and
+            pricing should be confirmed before making an investment decision.
+          </p>
+        </div>
+      </section>
+
+      {/* =========================================================
           FEATURES
           Kept intentionally dark in both themes for contrast.
       ========================================================= */}
