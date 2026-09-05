@@ -1,26 +1,11 @@
 import type { Metadata } from "next";
 import JaipurPlotInvestmentClient from "@/components/enquiry/JaipurPlotInvestmentClient";
 
-/**
- * ============================================================
- * JAIPUR PLOT INVESTMENT LANDING PAGE — SEO CONFIGURATION
- * ============================================================
- *
- * This file intentionally remains a Server Component.
- *
- * Responsibilities:
- * - Next.js SEO metadata
- * - Canonical URL
- * - Robots directives
- * - Open Graph / social sharing
- * - Structured data / JSON-LD
- *
- * The complete interactive landing-page UI remains inside:
- * components/enquiry/JaipurPlotInvestmentClient.tsx
- */
+
+const BASE_URL = "https://www.rsnestates.com";
 
 const canonicalUrl =
-  "https://rsnestates.com/jaipur-plot-investment";
+  `${BASE_URL}/jaipur-plot-investment`;
 
 const pageTitle =
   "Plots Near NIMS University Jaipur | Jaipur Plot Investment Opportunity";
@@ -29,7 +14,7 @@ const pageDescription =
   "Explore residential and commercial plots near NIMS University, Jaipur, on the developing Jaipur–Delhi corridor. View plot sizes, site photos, investment options and current availability.";
 
 const heroImage =
-  "https://rsnestates.com/images/jaipur-investment-hero.webp";
+  `${BASE_URL}/images/jaipur-investment-hero.webp`;
 
 /**
  * ============================================================
@@ -77,7 +62,8 @@ export const metadata: Metadata = {
         url: heroImage,
         width: 1920,
         height: 1080,
-        alt: "Plot investment opportunity near NIMS University, Jaipur",
+        alt:
+          "Plot investment opportunity near NIMS University, Jaipur",
       },
     ],
   },
@@ -97,15 +83,6 @@ export const metadata: Metadata = {
  * ============================================================
  * STRUCTURED DATA / JSON-LD
  * ============================================================
- *
- * The schema below describes information that is actually
- * represented on the landing page.
- *
- * Included:
- * 1. WebPage
- * 2. RealEstateAgent
- * 3. BreadcrumbList
- * 4. FAQPage
  */
 
 const structuredData = {
@@ -115,7 +92,8 @@ const structuredData = {
     {
       "@type": "WebPage",
 
-      "@id": `${canonicalUrl}#webpage`,
+      "@id":
+        `${canonicalUrl}#webpage`,
 
       url: canonicalUrl,
 
@@ -128,9 +106,11 @@ const structuredData = {
       isPartOf: {
         "@type": "WebSite",
 
-        "@id": "https://rsnestates.com/#website",
+        "@id":
+          `${BASE_URL}/#website`,
 
-        url: "https://rsnestates.com/",
+        url:
+          `${BASE_URL}/`,
 
         name: "RSN Estates",
       },
@@ -152,11 +132,17 @@ const structuredData = {
       },
 
       breadcrumb: {
-        "@id": `${canonicalUrl}#breadcrumb`,
+        "@id":
+          `${canonicalUrl}#breadcrumb`,
       },
 
+      /**
+       * Match the RealEstateAgent entity ID used by
+       * the site's global structured data.
+       */
       publisher: {
-        "@id": "https://rsnestates.com/#real-estate-agent",
+        "@id":
+          `${BASE_URL}/#realestateagent`,
       },
 
       primaryImageOfPage: {
@@ -173,11 +159,17 @@ const structuredData = {
     {
       "@type": "RealEstateAgent",
 
-      "@id": "https://rsnestates.com/#real-estate-agent",
+      /**
+       * Match the global RealEstateAgent entity ID.
+       * This prevents duplicate/inconsistent agent entities.
+       */
+      "@id":
+        `${BASE_URL}/#realestateagent`,
 
       name: "RSN Estates",
 
-      url: "https://rsnestates.com/",
+      url:
+        `${BASE_URL}/`,
 
       areaServed: [
         {
@@ -197,7 +189,8 @@ const structuredData = {
     {
       "@type": "BreadcrumbList",
 
-      "@id": `${canonicalUrl}#breadcrumb`,
+      "@id":
+        `${canonicalUrl}#breadcrumb`,
 
       itemListElement: [
         {
@@ -207,7 +200,8 @@ const structuredData = {
 
           name: "Home",
 
-          item: "https://rsnestates.com/",
+          item:
+            `${BASE_URL}/`,
         },
 
         {
@@ -215,7 +209,8 @@ const structuredData = {
 
           position: 2,
 
-          name: "Jaipur Plot Investment",
+          name:
+            "Jaipur Plot Investment",
 
           item: canonicalUrl,
         },
@@ -225,7 +220,8 @@ const structuredData = {
     {
       "@type": "FAQPage",
 
-      "@id": `${canonicalUrl}#faq`,
+      "@id":
+        `${canonicalUrl}#faq`,
 
       mainEntity: [
         {
@@ -320,19 +316,6 @@ const structuredData = {
  * ============================================================
  * PAGE
  * ============================================================
- *
- * Server:
- * - Metadata
- * - Canonical
- * - Robots
- * - Open Graph
- * - JSON-LD
- *
- * Client:
- * - Complete landing-page UI
- * - Theme switching
- * - Investment lead form
- * - Existing interactions
  */
 
 export default function JaipurPlotInvestmentPage() {
@@ -341,7 +324,10 @@ export default function JaipurPlotInvestmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html:
+            JSON.stringify(
+              structuredData
+            ),
         }}
       />
 
