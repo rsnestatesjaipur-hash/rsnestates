@@ -87,22 +87,13 @@ const isDark = mounted && resolvedTheme === "dark";
               </p>
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8">
               <Link
                 href="#investment-enquiry"
                 className="inline-flex items-center justify-center rounded-xl bg-amber-500 px-7 py-4 text-base font-bold text-slate-950 transition hover:bg-amber-400"
               >
-                Get Current Price & Availability
+                Get Investment Options
               </Link>
-
-              <a
-                href="https://wa.me/919887047255"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/10 px-7 py-4 text-base font-semibold text-white backdrop-blur transition hover:bg-white/20"
-              >
-                Chat on WhatsApp
-              </a>
             </div>
           </div>
         </div>
@@ -559,7 +550,7 @@ const isDark = mounted && resolvedTheme === "dark";
                   isDark ? "text-white" : "text-slate-900"
                 }`}
               >
-                Get Current Price & Availability
+                Get Investment Options
               </h2>
 
               <p
@@ -574,17 +565,6 @@ const isDark = mounted && resolvedTheme === "dark";
 
             <div className="mt-10">
               <InvestmentLeadForm />
-            </div>
-
-            <div className="mt-6 text-center">
-              <a
-                href="https://wa.me/919887047255"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex rounded-xl bg-green-600 px-7 py-4 font-bold text-white transition hover:bg-green-500"
-              >
-                Chat on WhatsApp
-              </a>
             </div>
           </div>
         </div>

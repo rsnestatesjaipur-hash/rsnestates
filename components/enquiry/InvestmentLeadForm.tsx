@@ -397,9 +397,7 @@ export default function InvestmentLeadForm() {
         disabled={isSubmitting}
         className="w-full rounded-xl bg-amber-500 px-6 py-4 text-base font-bold text-slate-950 transition hover:bg-amber-400 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting
-          ? "Opening WhatsApp..."
-          : "Get Current Price & Availability"}
+        {isSubmitting ? "Opening WhatsApp..." : "Send on WhatsApp"}
       </button>
 
       {/* =========================================================
