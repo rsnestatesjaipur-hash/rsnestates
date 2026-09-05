@@ -15,15 +15,29 @@ import {
 // =====================================================
 // Sitemap Configuration
 // =====================================================
+//
+// IMPORTANT:
+// - Production canonical host is www.rsnestates.com.
+// - All sitemap URLs use the same www host.
+// - Existing static, locality, property, programmatic,
+//   and blog URLs are preserved.
+// - The Jaipur plot investment landing page is included.
+// - Only real, generated routes are added to the sitemap.
+// =====================================================
 
-const BASE_URL = "https://www.rsnestates.com";
+const BASE_URL =
+  "https://www.rsnestates.com";
+
+// =====================================================
+// Sitemap
+// =====================================================
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const urls: MetadataRoute.Sitemap = [];
 
-  // =====================================================
+  // ===================================================
   // Static Pages
-  // =====================================================
+  // ===================================================
 
   const staticPages = [
     "",
@@ -39,9 +53,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   staticPages.forEach((page) => {
     urls.push({
-      url: `${BASE_URL}${page}`,
+      url:
+        `${BASE_URL}${page}`,
 
-      lastModified: new Date(),
+      lastModified:
+        new Date(),
 
       changeFrequency:
         page === ""
@@ -51,15 +67,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:
         page === ""
           ? 1
-          : page === "/jaipur-plot-investment"
+          : page ===
+            "/jaipur-plot-investment"
             ? 0.95
             : 0.9,
     });
   });
 
-  // =====================================================
+  // ===================================================
   // Locality Pages
-  // =====================================================
+  // ===================================================
 
   const localities =
     await getPublishedLocalities();
@@ -80,9 +97,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  // =====================================================
+  // ===================================================
   // Property Pages
-  // =====================================================
+  // ===================================================
 
   const properties =
     await getAllProperties();
@@ -107,9 +124,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
-  // =====================================================
+  // ===================================================
   // Programmatic Pages
-  // =====================================================
+  // ===================================================
+  //
+  // Programmatic pages are generated only for published
+  // localities that have associated properties.
+  //
+  // Existing route-generation logic is preserved.
+  // ===================================================
 
   localities.forEach((locality) => {
     const localityProperties =
@@ -158,6 +181,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     });
   });
 
+  // ===================================================
+  // Blog Pages
+  // ===================================================
+  //
+  // Existing published blog URLs are preserved.
+  // ===================================================
 
   urls.push(
     {
@@ -230,6 +259,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         0.7,
     }
   );
+
+  // ===================================================
+  // Return Sitemap
+  // ===================================================
 
   return urls;
 }
