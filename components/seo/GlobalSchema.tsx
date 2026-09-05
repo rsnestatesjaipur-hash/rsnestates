@@ -1,87 +1,126 @@
 export default function GlobalSchema() {
+  /**
+   * ============================================================
+   * GLOBAL WEBSITE STRUCTURED DATA
+   * ============================================================
+   */
+
+  const BASE_URL =
+    "https://www.rsnestates.com";
+
   const schema = [
+    // ========================================================
+    // Organization
+    // ========================================================
+
     {
       "@context": "https://schema.org",
+
       "@type": "Organization",
 
-      "@id": "https://www.rsnestates.com/#organization",
+      "@id":
+        `${BASE_URL}/#organization`,
 
-      name: "RSN Estates",
+      name:
+        "RSN Estates",
 
-      url: "https://www.rsnestates.com",
+      url:
+        BASE_URL,
 
-      logo: "https://www.rsnestates.com/images/logo-black.png",
+      logo:
+        `${BASE_URL}/images/logo-black.png`,
 
       description:
         "RSN Estates is a trusted real estate company in Jaipur helping buyers, sellers and investors find residential, commercial and plotted properties.",
 
-      email: "contact@rsnestates.com",
-
-      sameAs: [
-        "https://www.facebook.com/",
-        "https://www.instagram.com/",
-        "https://www.linkedin.com/",
-        "https://www.youtube.com/",
-      ],
+      email:
+        "contact@rsnestates.com",
     },
+
+    // ========================================================
+    // Real Estate Agent
+    // ========================================================
 
     {
       "@context": "https://schema.org",
 
-      "@type": "RealEstateAgent",
+      "@type":
+        "RealEstateAgent",
 
-      "@id": "https://www.rsnestates.com/#realestateagent",
+      "@id":
+        `${BASE_URL}/#realestateagent`,
 
-      name: "RSN Estates",
+      name:
+        "RSN Estates",
 
-      url: "https://www.rsnestates.com",
+      url:
+        BASE_URL,
 
       image:
-        "https://www.rsnestates.com/images/logo-black.png",
+        `${BASE_URL}/images/logo-black.png`,
 
-      telephone: "+91-7014210085",
+      telephone:
+        "+91-7014210085",
 
-      email: "contact@rsnestates.com",
+      email:
+        "contact@rsnestates.com",
 
       areaServed: {
-        "@type": "City",
-        name: "Jaipur",
+        "@type":
+          "City",
+
+        name:
+          "Jaipur",
       },
 
       address: {
-        "@type": "PostalAddress",
+        "@type":
+          "PostalAddress",
 
-        addressLocality: "Jaipur",
+        addressLocality:
+          "Jaipur",
 
-        addressRegion: "Rajasthan",
+        addressRegion:
+          "Rajasthan",
 
-        postalCode: "302021",
+        postalCode:
+          "302021",
 
-        addressCountry: "IN",
+        addressCountry:
+          "IN",
       },
     },
+
+    // ========================================================
+    // WebSite
+    // ========================================================
 
     {
       "@context": "https://schema.org",
 
-      "@type": "WebSite",
+      "@type":
+        "WebSite",
 
-      "@id": "https://www.rsnestates.com/#website",
+      "@id":
+        `${BASE_URL}/#website`,
 
-      url: "https://www.rsnestates.com",
+      url:
+        BASE_URL,
 
-      name: "RSN Estates",
+      name:
+        "RSN Estates",
 
       publisher: {
         "@id":
-          "https://www.rsnestates.com/#organization",
+          `${BASE_URL}/#organization`,
       },
 
       potentialAction: {
-        "@type": "SearchAction",
+        "@type":
+          "SearchAction",
 
         target:
-          "https://www.rsnestates.com/properties?search={search_term_string}",
+          `${BASE_URL}/properties?search={search_term_string}`,
 
         "query-input":
           "required name=search_term_string",
@@ -93,7 +132,8 @@ export default function GlobalSchema() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schema),
+        __html:
+          JSON.stringify(schema),
       }}
     />
   );
