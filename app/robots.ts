@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
 
     // Keep this URL consistent with the site's canonical
     // domain and sitemap.ts BASE_URL.
-    sitemap:
-      "https://rsnestates.com/sitemap.xml",
+  sitemap:
+    "https://www.rsnestates.com/sitemap.xml",
   };
 }

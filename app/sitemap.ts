@@ -16,7 +16,7 @@ import {
 // Sitemap Configuration
 // =====================================================
 
-const BASE_URL = "https://rsnestates.com";
+const BASE_URL = "https://www.rsnestates.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const urls: MetadataRoute.Sitemap = [];
