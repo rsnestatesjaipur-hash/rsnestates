@@ -12,12 +12,14 @@ import {
   generateProgrammaticRoutes,
 } from "@/lib/utils/programmaticRoutes";
 
-const BASE_URL =
-  "https://www.rsnestates.com";
+// =====================================================
+// Sitemap Configuration
+// =====================================================
+
+const BASE_URL = "https://rsnestates.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const urls: MetadataRoute.Sitemap =
-    [];
+  const urls: MetadataRoute.Sitemap = [];
 
   // =====================================================
   // Static Pages
@@ -32,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/properties",
     "/privacy-policy",
     "/terms-and-conditions",
+    "/jaipur-plot-investment",
   ];
 
   staticPages.forEach((page) => {
@@ -48,12 +51,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority:
         page === ""
           ? 1
-          : 0.9,
+          : page === "/jaipur-plot-investment"
+            ? 0.95
+            : 0.9,
     });
   });
 
   // =====================================================
-  // Localities
+  // Locality Pages
   // =====================================================
 
   const localities =
@@ -61,14 +66,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   localities.forEach((locality) => {
     urls.push({
-      url: `${BASE_URL}/localities/${locality.slug}`,
+      url:
+        `${BASE_URL}/localities/${locality.slug}`,
 
-      lastModified: new Date(),
+      lastModified:
+        new Date(),
 
       changeFrequency:
         "weekly",
 
-      priority: 0.8,
+      priority:
+        0.8,
     });
   });
 
@@ -81,7 +89,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   properties.forEach((property) => {
     urls.push({
-      url: `${BASE_URL}/property/${property.slug}`,
+      url:
+        `${BASE_URL}/property/${property.slug}`,
 
       lastModified:
         property.created_at
@@ -93,7 +102,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency:
         "weekly",
 
-      priority: 0.9,
+      priority:
+        0.9,
     });
   });
 
@@ -101,109 +111,123 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Programmatic Pages
   // =====================================================
 
-  // =====================================================
-  // Programmatic Pages
-  // Only create pages for localities having properties
-  // =====================================================
+  localities.forEach((locality) => {
+    const localityProperties =
+      properties.filter(
+        (property: any) =>
+          property.localitySlug ===
+          locality.slug
+      );
 
-  // =====================================================
-  // Programmatic Pages
-  // Only for localities having at least one property
-  // =====================================================
+    // Do not generate programmatic URLs for localities
+    // without any associated properties.
+    if (
+      localityProperties.length ===
+      0
+    ) {
+      return;
+    }
 
-    localities.forEach((locality) => {
-      const localityProperties =
-        properties.filter(
-          (property: any) =>
-            property.localitySlug ===
-            locality.slug
-        );
+    const routes =
+      generateProgrammaticRoutes(
+        locality.slug,
+        localityProperties
+      );
 
-      if (
-        localityProperties.length ===
-        0
-      ) {
-        return;
-      }
+    routes.forEach((route) => {
+      urls.push({
+        url:
+          `${BASE_URL}${route}`,
 
-      const routes =
-        generateProgrammaticRoutes(
-          locality.slug,
-          localityProperties
-        );
+        lastModified:
+          new Date(),
 
-      routes.forEach((route) => {
-        urls.push({
-          url: `${BASE_URL}${route}`,
+        changeFrequency:
+          "weekly",
 
-          lastModified:
-            new Date(),
-
-          changeFrequency:
-            "weekly",
-
-          priority:
-            route.includes(
-              "under-"
-            ) ||
-            route.includes(
-              "-bhk-"
-            )
-              ? 0.9
-              : 0.8,
-        });
+        priority:
+          route.includes(
+            "under-"
+          ) ||
+          route.includes(
+            "-bhk-"
+          )
+            ? 0.9
+            : 0.8,
       });
     });
+  });
 
-  // =====================================================
-  // Blog Pages
-  // =====================================================
 
   urls.push(
     {
       url:
         `${BASE_URL}/blogs/how-to-buy-property-in-jaipur`,
+
       lastModified:
         new Date(),
+
       changeFrequency:
         "monthly",
-      priority: 0.7,
+
+      priority:
+        0.7,
     },
+
     {
       url:
         `${BASE_URL}/blogs/best-localities-to-buy-property-in-jaipur`,
+
       lastModified:
         new Date(),
+
       changeFrequency:
         "monthly",
-      priority: 0.7,
+
+      priority:
+        0.7,
     },
+
     {
       url:
         `${BASE_URL}/blogs/common-mistakes-to-avoid-when-buying-property-in-jaipur`,
+
       lastModified:
         new Date(),
+
       changeFrequency:
         "monthly",
-      priority: 0.7,
+
+      priority:
+        0.7,
     },
+
     {
       url:
         `${BASE_URL}/blogs/apartment-vs-plot-which-is-better-in-jaipur`,
+
       lastModified:
         new Date(),
+
       changeFrequency:
         "monthly",
-      priority: 0.7,
+
+      priority:
+        0.7,
     },
+
     {
       url:
         `${BASE_URL}/blogs/top-emerging-investment-areas-in-jaipur`,
+
       lastModified:
         new Date(),
+
       changeFrequency:
         "monthly",
-      priority: 0.7,
+
+      priority:
+        0.7,
     }
   );
 
